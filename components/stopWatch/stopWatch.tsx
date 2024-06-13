@@ -61,85 +61,36 @@ export function StopWatch() {
     });
 
     const isAnimationPaused = watchState.isPaused || !watchState.isActive || watchState.isComplete
-
+    
     useEffect(() => {
-        let interval = null;
- 
-        if (watchState.isActive && watchState.isPaused === false && !watchState.isComplete) {
-            interval = setInterval(() => {
-                setWatchState((prev) => {
-                    let updatedTotalWalkTime = prev.totalWalkTime;
-                    let updatedTotalRunTime = prev.totalRunTime;
-                    let endOfLastInterval = prev.endOfLastInterval;
-                    let updatedTotalTime = prev.totalTime + stopWatchInterval;
-                    let isWalking = prev.isWalking;
-                    let currentWalkInterval = prev.currentWalkInterval;
-                    let currentRunInterval = prev.currentRunInterval;
-                    let isComplete = prev.isComplete;
-                    let isActive = prev.isActive;
-                    let isPaused = prev.isPaused;
-                    let isIntervalSwitch = false;
+        let worker = new Worker('stopwatchWorker.js');
 
-                    if (prev.isWalking) {
-                        updatedTotalWalkTime += stopWatchInterval;
-                        const currentIntervalLength = prev.totalTime - endOfLastInterval
-                        if (currentIntervalLength >= convertMinToMs(prev.walkLength)) {
-                           endOfLastInterval = prev.totalTime;
-                           isWalking = false;
-                           isIntervalSwitch = true;
-                           currentWalkInterval += 1;
-                        }
-                    } else {
-                        updatedTotalRunTime += stopWatchInterval; 
-                        const currentIntervalLength = prev.totalTime - endOfLastInterval
-                        if (currentIntervalLength >= convertMinToMs(prev.runLength)) {
-                            endOfLastInterval = prev.totalTime;
-                            isWalking = true;
-                            isIntervalSwitch = true;
-                            currentRunInterval += 1;
-                         }
-                    }
+        worker.onmessage = function (e) {
+            const updatedState = e.data;
+            let prevIsWalking = true
+            setWatchState(prevState => {
+                prevIsWalking = prevState.isWalking;
+                return(
+                {
+                ...prevState,
+                ...updatedState,
+                isPaused: updatedState.isComplete ? true : prevState.isPaused,
+                isActive: !updatedState.isComplete && prevState.isActive,
+            })}
+        );
+            if (updatedState.isComplete) {
+                handlePlayCompleteAlarm();
+            } else if (updatedState.isWalking !== prevIsWalking) {
+                updatedState.isWalking ? handlePlayWalkAlarm() : handlePlayRunAlarm();
+            }
+        };
 
-                    if(currentWalkInterval >= prev.numberOfWalkIntervals && currentRunInterval >= prev.numberOfRunIntervals) {
-                        isComplete = true;
-                        isActive = false;
-                        isPaused = true;
-                        updatedTotalTime = prev.totalTime;
-                        updatedTotalWalkTime = prev.totalWalkTime
-                        updatedTotalRunTime = prev.totalRunTime;
-                        handlePlayCompleteAlarm();
-                    }
-
-                    if(!isComplete) {
-                        if(isIntervalSwitch) {
-                            if(isWalking) {
-                                handlePlayWalkAlarm();
-                            } else {
-                                handlePlayRunAlarm();
-                            }
-                        }
-                    }
-
-                    return {
-                        ...prev,
-                        totalTime: updatedTotalTime,
-                        totalWalkTime: updatedTotalWalkTime,
-                        totalRunTime: updatedTotalRunTime,
-                        endOfLastInterval: endOfLastInterval,
-                        currentIntervalTime: currentRunInterval,
-                        currentWalkInterval: currentWalkInterval,
-                        currentRunInterval: currentRunInterval,
-                        isWalking: isWalking,
-                        isComplete: isComplete,
-                        isPaused: isPaused,
-                    };
-                });
-            }, stopWatchInterval);
-        } else {
-            interval && clearInterval(interval);
+        if (watchState.isActive && !watchState.isPaused) {
+            worker.postMessage({ command: 'start', state: watchState, stopWatchInterval: stopWatchInterval });
         }
+
         return () => {
-            interval && clearInterval(interval);
+            worker.terminate();
         };
     }, [watchState.isActive, watchState.isPaused]);
 
