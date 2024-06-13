@@ -245,7 +245,7 @@ export function StopWatch() {
 
     console.log(watchState)
     return (
-        <>
+        <div>
             <audio ref={audioAlarmRef} src={AudioPaths.alarm} />
             <audio ref={audioRunRef} src={AudioPaths.startRunning} />
             <audio ref={audioWalkRef} src={AudioPaths.startWalking} />
@@ -335,7 +335,7 @@ export function StopWatch() {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     )
 
 }
