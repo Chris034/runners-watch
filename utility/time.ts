@@ -1,8 +1,6 @@
 export function formatMsToDisplay(ms: number): string {
-    // Convert milliseconds to seconds
     let seconds = Math.floor(ms / 1000);
 
-    // Calculate hours, minutes, and remaining seconds
     let hours = Math.floor(seconds / 3600);
     seconds %= 3600;
     let minutes = Math.floor(seconds / 60);
