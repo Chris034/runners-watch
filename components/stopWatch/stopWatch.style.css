@@ -1,0 +1,201 @@
+@keyframes sweep {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .clock {
+    background: powderblue;
+    border-color: darkblue;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    
+  }
+  
+  
+  .start-button {
+    background: darkblue;
+    border: none;
+    border-radius: 0.5em;
+    color: white;
+    cursor: pointer;
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 1em;
+    flex: 1
+  }
+  
+  .stop-button {
+    background: darkblue;
+    border: none;
+    border-radius: 0.5em;
+    color: white;
+    cursor: pointer;
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 0.5em;
+    flex: 1
+  }
+  
+  .button-group-container {
+    position: absolute;
+    top: 0%;
+    right: 0;
+    margin: 5em;
+    width: 20em;
+  }
+  
+  .button-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .button-group > label {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    text-align: center;
+  }
+  
+  .button-group > input {
+    height: 2em;
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+  
+  .clock-container {
+    position: relative;
+    font-family: Helvetica;
+    font-size: 30px;
+    width: 70vmin;
+    height: 70vmin;
+    min-width: 400px;
+    min-height: 400px;
+
+  }
+  
+  .timer {
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 80px;
+  }
+  
+  .toggle-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 4em;
+    margin-top: 3em;
+  
+  }
+  .dot {
+    border: 0px;
+    border-radius: 50%;
+    background: darkblue;
+    height: 4%;
+    width: 4%;
+    position: absolute;
+    left: 48%;
+    top: 48%;
+  }
+  
+  .hand {
+    position: absolute;
+    border-radius: 6px;
+    background: darkblue;
+    height: 35%;
+    width: 2%;
+    left: 49%;
+    top: 15%;
+    transform-origin: center bottom;
+    transform: rotate(360deg);
+    animation: sweep 10s linear;
+    z-index: 1;
+  
+  }
+  
+  .paused {
+    animation-play-state: paused; /* Pause animation when this class is applied */
+  }
+  
+  .segment {
+    height: 100%;
+    position: absolute;
+    padding-top: 4%;
+    width: 2em;
+    left: calc(50% - 1em);
+    text-align: center;
+    top: 0px;
+  }
+  
+  .one    { transform: rotate(30deg);  }
+  .two    { transform: rotate(60deg);  }
+  .three  { transform: rotate(90deg);  }
+  .four   { transform: rotate(120deg); }
+  .five   { transform: rotate(150deg); }
+  .six    { transform: rotate(180deg); }
+  .seven  { transform: rotate(210deg); }
+  .eight  { transform: rotate(240deg); }
+  .nine   { transform: rotate(270deg); }
+  .ten    { transform: rotate(300deg); }
+  .eleven { transform: rotate(330deg); }
+  
+  .one    > .numeral { transform: rotate(-30deg); }
+  .two    > .numeral { transform: rotate(-60deg); }
+  .three  > .numeral { transform: rotate(-90deg); }
+  .four   > .numeral { transform: rotate(-120deg); }
+  .five   > .numeral { transform: rotate(-150deg); }
+  .six    > .numeral { transform: rotate(-180deg); }
+  .seven  > .numeral { transform: rotate(-210deg); }
+  .eight  > .numeral { transform: rotate(-240deg); }
+  .nine   > .numeral { transform: rotate(-270deg); }
+  .ten    > .numeral { transform: rotate(-300deg); }
+  .eleven > .numeral { transform: rotate(-330deg); }
+  
+  .major {
+    height: 3%;
+    width: 1%;
+    position: absolute;
+    background: darkblue;
+    left: 49.5%;
+    top: 0px;
+    transform-origin: center calc(5000% / 3);
+  }
+  
+  .minor {
+    height: 60%;
+    width: 50%;
+    position: absolute;
+    background: darkblue;
+    left: 0px;
+    top: 0px;
+    transform-origin: center calc(100 / 60 * 5000% / 3);
+  }
+  
+  .minor-one    { transform: rotate(3deg);  }
+  .minor-two    { transform: rotate(6deg);  }
+  .minor-three  { transform: rotate(9deg);  }
+  .minor-four   { transform: rotate(12deg); }
+  .minor-five   { transform: rotate(15deg); }
+  .minor-six    { transform: rotate(18deg); }
+  .minor-seven  { transform: rotate(21deg); }
+  .minor-eight  { transform: rotate(24deg); }
+  .minor-nine   { transform: rotate(27deg); }
