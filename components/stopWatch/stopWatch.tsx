@@ -105,6 +105,8 @@ export function StopWatch() {
                         isActive = false;
                         isPaused = true;
                         updatedTotalTime = prev.totalTime;
+                        updatedTotalWalkTime = prev.totalWalkTime
+                        updatedTotalRunTime = prev.totalRunTime;
                         handlePlayCompleteAlarm();
                     }
 
@@ -283,10 +285,9 @@ export function StopWatch() {
                     <div className="dot"></div>
                     <div id='clock-hand' key={clockHandKey} className={`hand ${isAnimationPaused ? 'paused' : ''}`}></div>
                     <div className='timer'>{formatMsToDisplay(watchState.totalTime)}</div>
+                    <div className='walking-status'>{watchState.isActive && (watchState.isComplete ? 'Complete': watchState.isWalking ? 'Keep Walking' : 'Keep Running')}</div>
+                    {/* <div className='interval-counter'>{watchState.isActive && `Interval: ${watchState.currentWalkInterval}`}</div> */}
                 </div>
-                {watchState.isActive && (watchState.isComplete ? 'Complete': watchState.isWalking ? 'Walking' : 'Running')}
-                {watchState.isActive && `Interval: ${watchState.currentWalkInterval}`}
-
             </div>
 
             <div className='button-group-container'>
@@ -307,6 +308,30 @@ export function StopWatch() {
                         <Button size={"lg"} onClick={handleStart}>Start</Button>
                         <Button size={"lg"} onClick={handlePauseResume}>Stop</Button>
                         <Button size={"lg"} onClick={handleReset}>Reset</Button>
+                    </div>
+                </div>
+            </div>
+            <div className='stat-container'>
+                <div className='stat-group'>
+                    <div className='stat'>
+                        <div className='stat-label'>Total Time</div>
+                        <div className='stat-value'>{formatMsToDisplay(watchState.totalTime)}</div>
+                    </div>
+                    <div className='stat'>
+                        <div className='stat-label'>Total Walk Time</div>
+                        <div className='stat-value'>{formatMsToDisplay(watchState.totalWalkTime)}</div>
+                    </div>
+                    <div className='stat'>
+                        <div className='stat-label'>Total Run Time</div>
+                        <div className='stat-value'>{formatMsToDisplay(watchState.totalRunTime)}</div>
+                    </div>
+                    <div className='stat'>
+                        <div className='stat-label'>Walk Intervals</div>
+                        <div className='stat-value'>{watchState.currentWalkInterval}</div>
+                    </div>
+                    <div className='stat'>
+                        <div className='stat-label'>Run Intervals</div>
+                        <div className='stat-value'>{watchState.currentRunInterval}</div>
                     </div>
                 </div>
             </div>

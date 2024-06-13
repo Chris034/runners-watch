@@ -98,6 +98,20 @@
     font-size: 80px;
   }
   
+  .walking-status {
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .interval-counter {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
   .toggle-buttons{
     display: flex;
     flex-direction: row;
@@ -127,9 +141,31 @@
     top: 15%;
     transform-origin: center bottom;
     transform: rotate(360deg);
-    animation: sweep 10s linear;
+    animation: sweep 60s linear infinite;
     z-index: 1;
-  
+  }
+
+  .stat-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 4em;
+    margin-top: 3em;
+  }
+
+  .stat-label {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    text-align: center;
+  }
+
+  .stat-value {
+    font-size: 1.5em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    text-align: center;
   }
   
   .paused {
